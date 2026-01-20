@@ -1,6 +1,6 @@
 # IconPacks.NET
 
-Awesome icon packs for .NET, automatically builds on the latest source.
+Awesome icon packs for .NET
 
 
 
@@ -11,8 +11,18 @@ Awesome icon packs for .NET, automatically builds on the latest source.
 | [Ionicons](https://ionic.io/ionicons/)                       | [![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/IconPacks.Ionic?style=for-the-badge)](https://www.nuget.org/packages/IconPacks.Ionic) |
 | [Material-design-icons(google)](https://fonts.google.com/icons) | [![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/IconPacks.Material?style=for-the-badge)](https://www.nuget.org/packages/IconPacks.Material) |
 | [MaterialDesign(community)](https://materialdesignicons.com) | [![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/IconPacks.MaterialCommunity?style=for-the-badge)](https://www.nuget.org/packages/IconPacks.MaterialCommunity) |
-| [Simple-icons](https://simpleicons.org/)                     | [![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/IconPacks.Simple?style=for-the-badge)](https://www.nuget.org/packages/IconPacks.Simple) |
 | [Tabler-icons](https://tabler-icons.io/)                     | [![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/IconPacks.Tabler?style=for-the-badge)](https://www.nuget.org/packages/IconPacks.Tabler) |
 
 
 
+## IconPacks showcase
+
+The showcase app for all available icon packs is available [here](./src/IconPacks.Showcase).
+
+![showcase](./public/showcase.png)
+
+
+
+## License
+
+Each icon library has its own license. Please refer to its project directory for details.
