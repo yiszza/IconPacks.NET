@@ -2,3 +2,4 @@
 bin/
 obj/
 3rdparty/
+/src/InkscapeOutput
