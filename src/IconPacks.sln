@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.4.33213.308
+# Visual Studio Version 18
+VisualStudioVersion = 18.3.11408.92 d18.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IconPacksGenerator", "IconPacksGenerator\IconPacksGenerator.csproj", "{EC0AEFFE-C16B-4496-A96A-477274A337B3}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IconPacks.FontAwesome", "IconPacks.FontAwesome\IconPacks.FontAwesome.csproj", "{3972954D-3049-41D2-B9B2-0CF2E0504EB5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IconPacks.Tabler", "IconPacks.Tabler\IconPacks.Tabler.csproj", "{B54F22BA-9521-4CB5-9FEC-DCC55B86078F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IconPacks.Showcase", "IconPacks.Showcase\IconPacks.Showcase.csproj", "{B5CBA752-ABEC-48B8-BF98-D92CD02272A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{B54F22BA-9521-4CB5-9FEC-DCC55B86078F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B54F22BA-9521-4CB5-9FEC-DCC55B86078F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B54F22BA-9521-4CB5-9FEC-DCC55B86078F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5CBA752-ABEC-48B8-BF98-D92CD02272A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5CBA752-ABEC-48B8-BF98-D92CD02272A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5CBA752-ABEC-48B8-BF98-D92CD02272A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5CBA752-ABEC-48B8-BF98-D92CD02272A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

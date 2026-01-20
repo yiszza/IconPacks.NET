@@ -1,0 +1,91 @@
+<Window
+    x:Class="IconPacks.Showcase.MainWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:app="using:IconPacks.Showcase"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="using:Material.Styles.Controls"
+    Title="IconPacks.Showcase"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="app:MainViewModel"
+    mc:Ignorable="d">
+
+    <Window.DataContext>
+        <app:MainViewModel />
+    </Window.DataContext>
+
+    <md:NavigationDrawer LeftDrawerWidth="200">
+        <md:NavigationDrawer.LeftDrawerContent>
+            <ScrollViewer>
+                <StackPanel Orientation="Vertical" Spacing="16">
+                    <ListBox
+                        Name="DrawerList"
+                        Classes="NoScroll"
+                        SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
+                        <ListBox.Styles>
+                            <Style Selector="ListBoxItem">
+                                <Setter Property="Height" Value="48" />
+                                <Setter Property="Padding" Value="16,0" />
+                                <Setter Property="VerticalContentAlignment" Value="Center" />
+                                <Setter Property="FontWeight" Value="Medium" />
+                                <Setter Property="FontSize" Value="16" />
+                            </Style>
+                        </ListBox.Styles>
+                        <ListBoxItem>Feather</ListBoxItem>
+                        <ListBoxItem>FontAwesome.Brands</ListBoxItem>
+                        <ListBoxItem>FontAwesome.Regular</ListBoxItem>
+                        <ListBoxItem>FontAwesome.Solid</ListBoxItem>
+                        <ListBoxItem>Ionic</ListBoxItem>
+                        <ListBoxItem>Material.Normal</ListBoxItem>
+                        <ListBoxItem>Material.Outlined</ListBoxItem>
+                        <ListBoxItem>Material.Round</ListBoxItem>
+                        <ListBoxItem>Material.Sharp</ListBoxItem>
+                        <ListBoxItem>MaterialCommunity</ListBoxItem>
+                        <ListBoxItem>Tabler.Filled</ListBoxItem>
+                        <ListBoxItem>Tabler.Outline</ListBoxItem>
+                    </ListBox>
+                </StackPanel>
+            </ScrollViewer>
+        </md:NavigationDrawer.LeftDrawerContent>
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" Padding="24">
+            <StackPanel Orientation="Vertical" Spacing="18">
+                <StackPanel Orientation="Horizontal" Spacing="12">
+				<TextBlock Text="Count: "  FontSize="18"
+                                    FontWeight="Bold"/>		
+				<TextBlock Text="{Binding CurrentItems.Count}"  FontSize="18"
+                                    FontWeight="Bold"/>		    	
+                </StackPanel>
+                <ItemsRepeater ItemsSource="{Binding CurrentItems}">
+                    <ItemsRepeater.Layout>
+                        <WrapLayout
+                            HorizontalSpacing="24"
+                            Orientation="Horizontal"
+                            VerticalSpacing="24" />
+                    </ItemsRepeater.Layout>
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="app:IconItem">
+                            <StackPanel
+                                Width="96"
+                                Orientation="Vertical"
+                                Spacing="6">
+                                <PathIcon
+                                    Width="96"
+                                    Height="96"
+                                    Data="{Binding Data}" />
+                                <SelectableTextBlock
+                                    x:Name="Description"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Text="{Binding Description}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+            </StackPanel>
+        </ScrollViewer>
+    </md:NavigationDrawer>
+</Window>

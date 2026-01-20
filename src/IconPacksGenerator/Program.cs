@@ -23,7 +23,7 @@ internal class Program
         Console.WriteLine();
         Console.WriteLine("Generator running...");
 
-        RunIconsGenerator();
+        await RunIconsGenerator();
 
         Console.WriteLine();
         Console.WriteLine("Packs building...");
@@ -45,8 +45,8 @@ internal class Program
         await InitIcons(
             Paths.FontAwesomeIconPath,
             "https://github.com/FortAwesome/Font-Awesome.git",
-            "6.x",
-            "metadata/icons.json"
+            "7.x",
+            "svgs-full/"
         );
         await InitIcons(
             Paths.IonicIconPath,
@@ -58,7 +58,7 @@ internal class Program
             Paths.MaterialIconPath,
             "https://github.com/google/material-design-icons.git",
             "master",
-            "symbols/android/*/materialsymbolssharp/*_24px.xml"
+            "src/"
         );
         await InitIcons(
             Paths.MaterialCommunityIconPath,
@@ -69,7 +69,7 @@ internal class Program
         await InitIcons(
             Paths.TablerIconPath,
             "https://github.com/tabler/tabler-icons.git",
-            "dev",
+            "main",
             "icons/"
         );
     }
@@ -113,15 +113,11 @@ internal class Program
     private static async Task UpdateIcons()
     {
         await UpdateIcons(Paths.FeatherIconPath, "main", "icons/");
-        await UpdateIcons(Paths.FontAwesomeIconPath, "6.x", "metadata/icons.json");
+        await UpdateIcons(Paths.FontAwesomeIconPath, "7.x", "svgs-full/");
         await UpdateIcons(Paths.IonicIconPath, "main", "src/svg/");
-        await UpdateIcons(
-            Paths.MaterialIconPath,
-            "master",
-            "symbols/android/*/materialsymbolssharp/*_24px.xml"
-        );
+        await UpdateIcons(Paths.MaterialIconPath, "master", "src/");
         await UpdateIcons(Paths.MaterialCommunityIconPath, "master", "svg/");
-        await UpdateIcons(Paths.TablerIconPath, "dev", "icons/");
+        await UpdateIcons(Paths.TablerIconPath, "main", "icons/");
     }
 
     private static async Task UpdateIcons(string workPath, string branch, string sparseCheckout)
@@ -142,18 +138,30 @@ internal class Program
         }
     }
 
-    private static void RunIconsGenerator()
+    private static async Task RunIconsGenerator()
     {
-        FeatherGenerator.Run();
-        FontAwesomeGenerator.Run();
-        IonicGenerator.Run();
-        MaterialGenerator.Run();
-        MaterialCommunityGenerator.Run();
-        TablerGenerator.Run();
+        await FeatherGenerator.RunAsync();
+        await FontAwesomeGenerator.RunAsync();
+        await IonicGenerator.RunAsync();
+        await MaterialGenerator.RunAsync();
+        await MaterialCommunityGenerator.RunAsync();
+        await TablerGenerator.RunAsync();
     }
 
     private static async Task BuildIconPacks(string? apiKey)
     {
+        if (string.IsNullOrEmpty(apiKey))
+        {
+            Console.WriteLine("Please input you nuget api-key...");
+            apiKey = Console.ReadLine();
+        }
+
+        if (string.IsNullOrEmpty(apiKey))
+        {
+            Console.WriteLine("Error: Nuget api-key is empty!");
+            return;
+        }
+
         var oldNupkgs = Directory.EnumerateFiles(
             Paths.RootPath,
             "*.nupkg",
@@ -194,18 +202,6 @@ internal class Program
             .WithArguments("pack ./IconPacks.Tabler -c release")
             .WithStandardOutputPipe(PipeTarget.ToDelegate(Console.WriteLine, Encoding.UTF8))
             .ExecuteBufferedAsync();
-
-        if (string.IsNullOrEmpty(apiKey))
-        {
-            Console.WriteLine("Please input you nuget api-key...");
-            apiKey = Console.ReadLine();
-        }
-
-        if (string.IsNullOrEmpty(apiKey))
-        {
-            Console.WriteLine("Error: Nuget api-key is empty!");
-            return;
-        }
 
         var newNupkgs = Directory.EnumerateFiles(
             Paths.RootPath,
