@@ -236,6 +236,26 @@ internal class Program
             .WithArguments("pack ./IconPacks.Tabler -c release")
             .WithStandardOutputPipe(PipeTarget.ToDelegate(Console.WriteLine, Encoding.UTF8))
             .ExecuteBufferedAsync();
+        await Cli.Wrap("dotnet")
+            .WithWorkingDirectory(Paths.RootPath)
+            .WithArguments("pack ./IconPacks.Fluent -c release")
+            .WithStandardOutputPipe(PipeTarget.ToDelegate(Console.WriteLine, Encoding.UTF8))
+            .ExecuteBufferedAsync();
+        await Cli.Wrap("dotnet")
+            .WithWorkingDirectory(Paths.RootPath)
+            .WithArguments("pack ./IconPacks.Hero -c release")
+            .WithStandardOutputPipe(PipeTarget.ToDelegate(Console.WriteLine, Encoding.UTF8))
+            .ExecuteBufferedAsync();
+        await Cli.Wrap("dotnet")
+            .WithWorkingDirectory(Paths.RootPath)
+            .WithArguments("pack ./IconPacks.Lucide -c release")
+            .WithStandardOutputPipe(PipeTarget.ToDelegate(Console.WriteLine, Encoding.UTF8))
+            .ExecuteBufferedAsync();
+        await Cli.Wrap("dotnet")
+            .WithWorkingDirectory(Paths.RootPath)
+            .WithArguments("pack ./IconPacks.Remix -c release")
+            .WithStandardOutputPipe(PipeTarget.ToDelegate(Console.WriteLine, Encoding.UTF8))
+            .ExecuteBufferedAsync();
 
         var newNupkgs = Directory.EnumerateFiles(
             Paths.RootPath,
