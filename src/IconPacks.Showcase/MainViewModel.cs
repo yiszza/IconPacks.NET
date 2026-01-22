@@ -80,8 +80,11 @@ public partial class MainViewModel : ObservableObject
         );
     }
 
-    partial void OnSelectedItemChanged(ListBoxItem value)
+    partial void OnSelectedItemChanged(ListBoxItem? value)
     {
+        if (value is null)
+            return;
+
         this.types.TryGetValue(value.Content!.ToString()!, out var type);
 
         if (type is null)

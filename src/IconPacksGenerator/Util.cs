@@ -49,7 +49,7 @@ internal static class Util
     internal static string AddViewBox(string pathdata, RectangleF viewBox)
     {
         return !viewBox.IsEmpty
-            ? $"M{viewBox.X},{viewBox.Y} M{viewBox.Width - viewBox.X},{viewBox.Height - viewBox.Y} {pathdata}"
+            ? $"M{viewBox.X} {viewBox.Y} z M{viewBox.Width - viewBox.X} {viewBox.Height - viewBox.Y} z {pathdata}"
             : pathdata;
     }
 

@@ -9,8 +9,6 @@ internal class Program
 
     private static async Task Main(string[] args)
     {
-        await MaterialGenerator.RunAsync();
-
         if (args.Length > 0 && !string.IsNullOrEmpty(args[0]))
             apiKey = args[0];
 
