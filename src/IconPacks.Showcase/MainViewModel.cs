@@ -1,11 +1,40 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace IconPacks.Showcase;
 
-public record IconItem(string Description, string? Data);
+public partial class IconItem(string key, string? data) : ObservableObject
+{
+    public string Key { get; init; } = key;
+    public string? Data { get; init; } = data;
+
+    [RelayCommand]
+    void CopyKey()
+    {
+        if (
+            Application.Current!.ApplicationLifetime
+            is IClassicDesktopStyleApplicationLifetime desktop
+        )
+            desktop.MainWindow?.Clipboard!.SetTextAsync(Key);
+    }
+
+    [RelayCommand]
+    void CopyData()
+    {
+        if (
+            Application.Current!.ApplicationLifetime
+            is IClassicDesktopStyleApplicationLifetime desktop
+        )
+            desktop.MainWindow?.Clipboard!.SetTextAsync(Data);
+    }
+}
 
 public partial class MainViewModel : ObservableObject
 {
@@ -13,12 +42,37 @@ public partial class MainViewModel : ObservableObject
     public ObservableCollection<IconItem>? currentItems;
 
     [ObservableProperty]
-    public int selectedIndex;
+    public ListBoxItem? selectedItem;
+
+    private readonly Dictionary<string, Type> types;
 
     public MainViewModel()
     {
+        this.types = new()
+        {
+            { "Feather", typeof(Feather.Regular) },
+            { "Fluent.Filled", typeof(Fluent.Filled) },
+            { "Fluent.Regular", typeof(Fluent.Regular) },
+            { "FontAwesome.Brands", typeof(FontAwesome.Brands) },
+            { "FontAwesome.Regular", typeof(FontAwesome.Regular) },
+            { "FontAwesome.Solid", typeof(FontAwesome.Solid) },
+            { "Hero.Outline", typeof(Hero.Outline) },
+            { "Hero.Solid", typeof(Hero.Solid) },
+            { "Ionic", typeof(Ionic.Regular) },
+            { "Lucide", typeof(Lucide.Regular) },
+            { "Material.Regular", typeof(Material.Regular) },
+            { "Material.Outlined", typeof(Material.Outlined) },
+            { "Material.Round", typeof(Material.Round) },
+            { "Material.Sharp", typeof(Material.Sharp) },
+            { "MaterialCommunity", typeof(MaterialCommunity.Regular) },
+            { "Remix.Fill", typeof(Remix.Fill) },
+            { "Remix.Line", typeof(Remix.Line) },
+            { "Tabler.Filled", typeof(Tabler.Filled) },
+            { "Tabler.Outline", typeof(Tabler.Outline) },
+        };
+
         this.CurrentItems = new ObservableCollection<IconItem>(
-            typeof(IconPacks.Feather.Feather)
+            typeof(IconPacks.Feather.Regular)
                 .GetFields(
                     System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static
                 )
@@ -26,24 +80,12 @@ public partial class MainViewModel : ObservableObject
         );
     }
 
-    partial void OnSelectedIndexChanged(int value)
+    partial void OnSelectedItemChanged(ListBoxItem value)
     {
-        var type = value switch
-        {
-            0 => typeof(IconPacks.Feather.Feather),
-            1 => typeof(IconPacks.FontAwesome.Brands),
-            2 => typeof(IconPacks.FontAwesome.Regular),
-            3 => typeof(IconPacks.FontAwesome.Solid),
-            4 => typeof(IconPacks.Ionic.Ionic),
-            5 => typeof(IconPacks.Material.Normal),
-            6 => typeof(IconPacks.Material.Outlined),
-            7 => typeof(IconPacks.Material.Round),
-            8 => typeof(IconPacks.Material.Sharp),
-            9 => typeof(IconPacks.MaterialCommunity.Material),
-            10 => typeof(IconPacks.Tabler.Filled),
-            11 => typeof(IconPacks.Tabler.Outline),
-            _ => throw new NotSupportedException(),
-        };
+        this.types.TryGetValue(value.Content!.ToString()!, out var type);
+
+        if (type is null)
+            return;
 
         this.CurrentItems?.Clear();
         this.CurrentItems = new ObservableCollection<IconItem>(

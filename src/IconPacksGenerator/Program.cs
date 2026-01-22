@@ -9,6 +9,8 @@ internal class Program
 
     private static async Task Main(string[] args)
     {
+        await MaterialGenerator.RunAsync();
+
         if (args.Length > 0 && !string.IsNullOrEmpty(args[0]))
             apiKey = args[0];
 
@@ -72,6 +74,30 @@ internal class Program
             "main",
             "icons/"
         );
+        await InitIcons(
+            Paths.FluentIconPath,
+            "https://github.com/microsoft/fluentui-system-icons.git",
+            "main",
+            "assets/"
+        );
+        await InitIcons(
+            Paths.RemixIconPath,
+            "https://github.com/Remix-Design/RemixIcon.git",
+            "master",
+            "icons/"
+        );
+        await InitIcons(
+            Paths.HeroIconPath,
+            "https://github.com/tailwindlabs/heroicons.git",
+            "master",
+            "src/24/"
+        );
+        await InitIcons(
+            Paths.LucideIconPath,
+            "https://github.com/lucide-icons/lucide.git",
+            "main",
+            "icons/"
+        );
     }
 
     private static async Task InitIcons(
@@ -118,6 +144,10 @@ internal class Program
         await UpdateIcons(Paths.MaterialIconPath, "master", "src/");
         await UpdateIcons(Paths.MaterialCommunityIconPath, "master", "svg/");
         await UpdateIcons(Paths.TablerIconPath, "main", "icons/");
+        await UpdateIcons(Paths.FluentIconPath, "main", "assets/");
+        await UpdateIcons(Paths.RemixIconPath, "master", "icons/");
+        await UpdateIcons(Paths.HeroIconPath, "master", "src/24/");
+        await UpdateIcons(Paths.LucideIconPath, "main", "icons/");
     }
 
     private static async Task UpdateIcons(string workPath, string branch, string sparseCheckout)
@@ -146,6 +176,10 @@ internal class Program
         await MaterialGenerator.RunAsync();
         await MaterialCommunityGenerator.RunAsync();
         await TablerGenerator.RunAsync();
+        await FluentGenerator.RunAsync();
+        await RemixGenerator.RunAsync();
+        await HeroGenerator.RunAsync();
+        await LucideGenerator.RunAsync();
     }
 
     private static async Task BuildIconPacks(string? apiKey)

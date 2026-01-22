@@ -49,6 +49,6 @@ internal static class IonicGenerator
             }
         }
 
-        Util.OutputIconKindFile(iconKinds, "Ionic", "Ionic");
+        Util.OutputIconKindFile(iconKinds, "Ionic", "Regular");
     }
 }

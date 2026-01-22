@@ -33,4 +33,12 @@ internal static class Paths
     internal static readonly string SimpleIconPath = Path.Combine(RootPath, "3rdparty/Simple/");
 
     internal static readonly string TablerIconPath = Path.Combine(RootPath, "3rdparty/Tabler/");
+
+    internal static readonly string FluentIconPath = Path.Combine(RootPath, "3rdparty/Fluent/");
+
+    internal static readonly string RemixIconPath = Path.Combine(RootPath, "3rdparty/Remix/");
+
+    internal static readonly string HeroIconPath = Path.Combine(RootPath, "3rdparty/Hero/");
+
+    internal static readonly string LucideIconPath = Path.Combine(RootPath, "3rdparty/Lucide/");
 }

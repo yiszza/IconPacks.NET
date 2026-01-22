@@ -23,7 +23,7 @@
                     <ListBox
                         Name="DrawerList"
                         Classes="NoScroll"
-                        SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
+                        SelectedItem="{Binding SelectedItem}">
                         <ListBox.Styles>
                             <Style Selector="ListBoxItem">
                                 <Setter Property="Height" Value="48" />
@@ -34,28 +34,42 @@
                             </Style>
                         </ListBox.Styles>
                         <ListBoxItem>Feather</ListBoxItem>
-                        <ListBoxItem>FontAwesome.Brands</ListBoxItem>
+                        <ListBoxItem>Fluent.Regular</ListBoxItem>
+                        <ListBoxItem>Fluent.Filled</ListBoxItem>
                         <ListBoxItem>FontAwesome.Regular</ListBoxItem>
+                        <ListBoxItem>FontAwesome.Brands</ListBoxItem>
                         <ListBoxItem>FontAwesome.Solid</ListBoxItem>
+                        <ListBoxItem>Hero.Outline</ListBoxItem>
+                        <ListBoxItem>Hero.Solid</ListBoxItem>
                         <ListBoxItem>Ionic</ListBoxItem>
-                        <ListBoxItem>Material.Normal</ListBoxItem>
+                        <ListBoxItem>Lucide</ListBoxItem>
+                        <ListBoxItem>Material.Regular</ListBoxItem>
                         <ListBoxItem>Material.Outlined</ListBoxItem>
                         <ListBoxItem>Material.Round</ListBoxItem>
                         <ListBoxItem>Material.Sharp</ListBoxItem>
                         <ListBoxItem>MaterialCommunity</ListBoxItem>
+                        <ListBoxItem>Remix.Fill</ListBoxItem>
+                        <ListBoxItem>Remix.Line</ListBoxItem>
                         <ListBoxItem>Tabler.Filled</ListBoxItem>
                         <ListBoxItem>Tabler.Outline</ListBoxItem>
                     </ListBox>
                 </StackPanel>
             </ScrollViewer>
         </md:NavigationDrawer.LeftDrawerContent>
-        <ScrollViewer HorizontalScrollBarVisibility="Disabled" Padding="24">
-            <StackPanel Orientation="Vertical" Spacing="18">
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+            <StackPanel
+                Margin="24"
+                Orientation="Vertical"
+                Spacing="18">
                 <StackPanel Orientation="Horizontal" Spacing="12">
-				<TextBlock Text="Count: "  FontSize="18"
-                                    FontWeight="Bold"/>		
-				<TextBlock Text="{Binding CurrentItems.Count}"  FontSize="18"
-                                    FontWeight="Bold"/>		    	
+                    <TextBlock
+                        FontSize="18"
+                        FontWeight="Bold"
+                        Text="Count: " />
+                    <TextBlock
+                        FontSize="18"
+                        FontWeight="Bold"
+                        Text="{Binding CurrentItems.Count}" />
                 </StackPanel>
                 <ItemsRepeater ItemsSource="{Binding CurrentItems}">
                     <ItemsRepeater.Layout>
@@ -67,20 +81,26 @@
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="app:IconItem">
                             <StackPanel
-                                Width="96"
+                                Width="48"
                                 Orientation="Vertical"
                                 Spacing="6">
                                 <PathIcon
-                                    Width="96"
-                                    Height="96"
+                                    Width="48"
+                                    Height="48"
                                     Data="{Binding Data}" />
-                                <SelectableTextBlock
-                                    x:Name="Description"
+                                <TextBlock
+                                    x:Name="Key"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    FontSize="14"
+                                    FontSize="12"
                                     FontWeight="Bold"
-                                    Text="{Binding Description}" />
+                                    Text="{Binding Key}" />
+                                <StackPanel.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Command="{Binding CopyKeyCommand}" Header="Copy key" />
+                                        <MenuItem Command="{Binding CopyDataCommand}" Header="Copy data" />
+                                    </ContextMenu>
+                                </StackPanel.ContextMenu>
                             </StackPanel>
                         </DataTemplate>
                     </ItemsRepeater.ItemTemplate>

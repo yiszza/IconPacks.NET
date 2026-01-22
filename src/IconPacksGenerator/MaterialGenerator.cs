@@ -14,7 +14,7 @@ internal static class MaterialGenerator
 
     internal static async Task RunAsync()
     {
-        await RunAsync("normal");
+        await RunAsync("regular");
         await RunAsync("outlined");
         await RunAsync("round");
         await RunAsync("sharp");
@@ -28,10 +28,11 @@ internal static class MaterialGenerator
 
         if (!Directory.Exists(variantOutputPath))
             Directory.CreateDirectory(variantOutputPath);
+
         if (!Directory.Exists(cachePath))
             Directory.CreateDirectory(cachePath);
 
-        var variantDirName = $"\\materialicons{(variant is "normal" ? string.Empty : variant)}\\";
+        var variantDirName = $"\\materialicons{(variant is "regular" ? string.Empty : variant)}\\";
         var files = Directory
             .EnumerateFiles(rootPath, "24px.svg", SearchOption.AllDirectories)
             .Where(file => file.Contains(variantDirName));

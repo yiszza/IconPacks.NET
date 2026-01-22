@@ -13,6 +13,9 @@ internal static class TablerGenerator
 
     internal static async Task RunAsync()
     {
+        if (!Directory.Exists(inkscapeOutputPath))
+            Directory.CreateDirectory(inkscapeOutputPath);
+
         foreach (var path in Directory.EnumerateDirectories(rootPath))
         {
             await RunAsync(Path.GetFileName(path));

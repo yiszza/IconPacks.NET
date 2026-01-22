@@ -52,6 +52,6 @@ internal static class MaterialCommunityGenerator
             }
         }
 
-        Util.OutputIconKindFile(iconKinds, "MaterialCommunity", "Material");
+        Util.OutputIconKindFile(iconKinds, "MaterialCommunity", "Regular");
     }
 }

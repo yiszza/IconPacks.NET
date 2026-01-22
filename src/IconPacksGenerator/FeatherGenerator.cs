@@ -48,6 +48,6 @@ internal static class FeatherGenerator
             }
         }
 
-        Util.OutputIconKindFile(iconKinds, "Feather", "Feather");
+        Util.OutputIconKindFile(iconKinds, "Feather", "Regular");
     }
 }
