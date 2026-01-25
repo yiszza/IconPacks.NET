@@ -1,19 +1,20 @@
 <Project>
-	<PropertyGroup>
-		<Authors>yiszza</Authors>
-		<Company>IconPacks</Company>
-		<LangVersion>latest</LangVersion>
-		<PackageProjectUrl>https://github.com/yiszza/IconPacks.NET</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/yiszza/IconPacks.NET</RepositoryUrl>
-		<PackageTags>icon;iconpacks;</PackageTags>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-
-		<Version>1.0.$([System.DateTime]::UtcNow.Date.Subtract($([System.DateTime]::Parse("2000-01-01"))).TotalDays).$([System.DateTime]::UtcNow.TimeOfDay.Hours)
+  <PropertyGroup>
+    <Authors>yiszza</Authors>
+    <Company>IconPacks</Company>
+    <LangVersion>latest</LangVersion>
+    <PackageProjectUrl>https://github.com/yiszza/IconPacks.NET</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/yiszza/IconPacks.NET</RepositoryUrl>
+    <PackageTags>icon;iconpacks;</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Version>1.0.$([System.DateTime]::UtcNow.Date.Subtract($([System.DateTime]::Parse("2000-01-01"))).TotalDays).$([System.DateTime]::UtcNow.TimeOfDay.Hours)
 		</Version>
-		
-		<PackageVersion>
+    <PackageVersion>
 			1.0.$([System.DateTime]::UtcNow.Date.Subtract($([System.DateTime]::Parse("2000-01-01"))).TotalDays).$([System.DateTime]::UtcNow.TimeOfDay.Hours)-build
 		</PackageVersion>
-
-	</PropertyGroup>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="" />
+  </ItemGroup>
 </Project>

@@ -23,7 +23,9 @@ Awesome icon packs for .NET
 
 The showcase app for all available icon packs is available [here](./src/IconPacks.Showcase).
 
-![showcase](./public/showcase.png)
+
+
+![showcase](https://raw.githubusercontent.com/yiszza/IconPacks.NET/refs/heads/master/public/showcase.png)
 
 
 

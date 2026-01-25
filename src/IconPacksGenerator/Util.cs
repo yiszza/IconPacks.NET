@@ -8,20 +8,26 @@ internal static class Util
 {
     internal static string GetCamelId(this string id)
     {
-        var result = new List<string>();
+        var strings = new List<string>();
         var list = id.Replace('-', '_').Split('_');
-        if (int.TryParse(list[0][0..1], out var v))
+        if (int.TryParse(list[0][0..1], out var _))
         {
             list[0] = $"_{list[0]}";
         }
         foreach (var s in list)
         {
             if (s.Length > 1)
-                result.Add($"{s[0..1].ToUpper()}{s[1..]}");
+                strings.Add($"{s[0..1].ToUpper()}{s[1..]}");
             else
-                result.Add(s.ToUpper());
+                strings.Add(s.ToUpper());
         }
-        return string.Join(string.Empty, result);
+
+        var result = string.Join(string.Empty, strings);
+
+        if (result.Equals("Equals"))
+            return "_Equals";
+
+        return result;
     }
 
     internal static string? GetSvgData(string path)
@@ -70,9 +76,9 @@ internal static class Util
             foreach (var kind in iconKinds)
             {
                 if (string.Equals(kind.Key, variant))
-                    sb.AppendLine($"\t\tpublic static string _{kind.Key} = \"{kind.Value}\";");
+                    sb.AppendLine($"\t\tpublic const string _{kind.Key} = \"{kind.Value}\";");
                 else
-                    sb.AppendLine($"\t\tpublic static string {kind.Key} = \"{kind.Value}\";");
+                    sb.AppendLine($"\t\tpublic const string {kind.Key} = \"{kind.Value}\";");
             }
             sb.AppendLine("\t}\r\n}");
 

@@ -2,16 +2,12 @@ using System.Text;
 using CliWrap;
 using CliWrap.Buffered;
 using IconPacksGenerator;
+using IconPacksGenerator.Generators;
 
 internal class Program
 {
-    private static string? apiKey;
-
     private static async Task Main(string[] args)
     {
-        if (args.Length > 0 && !string.IsNullOrEmpty(args[0]))
-            apiKey = args[0];
-
         Console.WriteLine("Icons initializing...");
         await InitIcons();
 
@@ -28,7 +24,7 @@ internal class Program
         Console.WriteLine();
         Console.WriteLine("Packs building...");
 
-        await BuildIconPacks(apiKey);
+        await BuildIconPacks();
 
         Console.WriteLine();
         Console.WriteLine("Done!");
@@ -180,95 +176,81 @@ internal class Program
         await LucideGenerator.RunAsync();
     }
 
-    private static async Task BuildIconPacks(string? apiKey)
+    private static async Task BuildIconPacks()
     {
-        if (string.IsNullOrEmpty(apiKey))
-        {
-            Console.WriteLine("Please input you nuget api-key...");
-            apiKey = Console.ReadLine();
-        }
+        if (!Directory.Exists(Paths.PacksPath))
+            Directory.CreateDirectory(Paths.PacksPath);
 
-        if (string.IsNullOrEmpty(apiKey))
+        foreach (var pack in Directory.EnumerateFiles(Paths.PacksPath, "*.nupkg"))
         {
-            Console.WriteLine("Error: Nuget api-key is empty!");
-            return;
-        }
-
-        var oldNupkgs = Directory.EnumerateFiles(
-            Paths.RootPath,
-            "*.nupkg",
-            SearchOption.AllDirectories
-        );
-        foreach (var nupkg in oldNupkgs)
-        {
-            File.Delete(nupkg);
+            File.Delete(pack);
         }
 
         await Cli.Wrap("dotnet")
             .WithWorkingDirectory(Paths.RootPath)
-            .WithArguments("pack ./IconPacks.Feather -c release")
+            .WithArguments("pack ./IconPacks.Feather -c release -o ./packs")
             .WithStandardOutputPipe(PipeTarget.ToDelegate(Console.WriteLine, Encoding.UTF8))
             .ExecuteBufferedAsync();
         await Cli.Wrap("dotnet")
             .WithWorkingDirectory(Paths.RootPath)
-            .WithArguments("pack ./IconPacks.FontAwesome -c release")
+            .WithArguments("pack ./IconPacks.FontAwesome -c release -o ./packs")
             .WithStandardOutputPipe(PipeTarget.ToDelegate(Console.WriteLine, Encoding.UTF8))
             .ExecuteBufferedAsync();
         await Cli.Wrap("dotnet")
             .WithWorkingDirectory(Paths.RootPath)
-            .WithArguments("pack ./IconPacks.Ionic -c release")
+            .WithArguments("pack ./IconPacks.Ionic -c release -o ./packs")
             .WithStandardOutputPipe(PipeTarget.ToDelegate(Console.WriteLine, Encoding.UTF8))
             .ExecuteBufferedAsync();
         await Cli.Wrap("dotnet")
             .WithWorkingDirectory(Paths.RootPath)
-            .WithArguments("pack ./IconPacks.Material -c release")
+            .WithArguments("pack ./IconPacks.Material -c release -o ./packs")
             .WithStandardOutputPipe(PipeTarget.ToDelegate(Console.WriteLine, Encoding.UTF8))
             .ExecuteBufferedAsync();
         await Cli.Wrap("dotnet")
             .WithWorkingDirectory(Paths.RootPath)
-            .WithArguments("pack ./IconPacks.MaterialCommunity -c release")
+            .WithArguments("pack ./IconPacks.MaterialCommunity -c release -o ./packs")
             .WithStandardOutputPipe(PipeTarget.ToDelegate(Console.WriteLine, Encoding.UTF8))
             .ExecuteBufferedAsync();
         await Cli.Wrap("dotnet")
             .WithWorkingDirectory(Paths.RootPath)
-            .WithArguments("pack ./IconPacks.Tabler -c release")
+            .WithArguments("pack ./IconPacks.Tabler -c release -o ./packs")
             .WithStandardOutputPipe(PipeTarget.ToDelegate(Console.WriteLine, Encoding.UTF8))
             .ExecuteBufferedAsync();
         await Cli.Wrap("dotnet")
             .WithWorkingDirectory(Paths.RootPath)
-            .WithArguments("pack ./IconPacks.Fluent -c release")
+            .WithArguments("pack ./IconPacks.Fluent -c release -o ./packs")
             .WithStandardOutputPipe(PipeTarget.ToDelegate(Console.WriteLine, Encoding.UTF8))
             .ExecuteBufferedAsync();
         await Cli.Wrap("dotnet")
             .WithWorkingDirectory(Paths.RootPath)
-            .WithArguments("pack ./IconPacks.Hero -c release")
+            .WithArguments("pack ./IconPacks.Hero -c release -o ./packs")
             .WithStandardOutputPipe(PipeTarget.ToDelegate(Console.WriteLine, Encoding.UTF8))
             .ExecuteBufferedAsync();
         await Cli.Wrap("dotnet")
             .WithWorkingDirectory(Paths.RootPath)
-            .WithArguments("pack ./IconPacks.Lucide -c release")
+            .WithArguments("pack ./IconPacks.Lucide -c release -o ./packs")
             .WithStandardOutputPipe(PipeTarget.ToDelegate(Console.WriteLine, Encoding.UTF8))
             .ExecuteBufferedAsync();
         await Cli.Wrap("dotnet")
             .WithWorkingDirectory(Paths.RootPath)
-            .WithArguments("pack ./IconPacks.Remix -c release")
+            .WithArguments("pack ./IconPacks.Remix -c release -o ./packs")
             .WithStandardOutputPipe(PipeTarget.ToDelegate(Console.WriteLine, Encoding.UTF8))
             .ExecuteBufferedAsync();
 
-        var newNupkgs = Directory.EnumerateFiles(
-            Paths.RootPath,
-            "*.nupkg",
-            SearchOption.AllDirectories
-        );
+        //var newNupkgs = Directory.EnumerateFiles(
+        //    Paths.RootPath,
+        //    "*.nupkg",
+        //    SearchOption.AllDirectories
+        //);
 
-        foreach (var nupkg in newNupkgs)
-        {
-            await Cli.Wrap("dotnet")
-                .WithStandardOutputPipe(PipeTarget.ToDelegate(Console.WriteLine, Encoding.UTF8))
-                .WithArguments(
-                    $"nuget push {nupkg} --api-key {apiKey} --source https://api.nuget.org/v3/index.json"
-                )
-                .ExecuteBufferedAsync();
-        }
+        //foreach (var nupkg in newNupkgs)
+        //{
+        //    await Cli.Wrap("dotnet")
+        //        .WithStandardOutputPipe(PipeTarget.ToDelegate(Console.WriteLine, Encoding.UTF8))
+        //        .WithArguments(
+        //            $"nuget push {nupkg} --api-key {apiKey} --source https://api.nuget.org/v3/index.json"
+        //        )
+        //        .ExecuteBufferedAsync();
+        //}
     }
 }

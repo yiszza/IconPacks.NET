@@ -7,6 +7,8 @@ internal static class Paths
         AppDomain.CurrentDomain.BaseDirectory
     );
 
+    internal static readonly string PacksPath = Path.Combine(RootPath, "./packs");
+
     internal static readonly string InkscapePath = "C:\\Program Files\\Inkscape\\bin\\inkscape.exe";
 
     internal static readonly string InkscapeOutputPath = Path.Combine(
