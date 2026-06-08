@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="CliWrap" Version="3.10.0" />
+    <PackageReference Include="CliWrap" Version="3.10.2" />
     <PackageReference Include="Svg" Version="3.4.7" />
   </ItemGroup>
 </Project>
