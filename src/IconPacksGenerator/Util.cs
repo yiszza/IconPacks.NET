@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Drawing;
 using System.Text;
 using Svg;
@@ -6,6 +7,71 @@ namespace IconPacksGenerator;
 
 internal static class Util
 {
+    internal static async Task StrokeToPathAsync(IEnumerable<string> files, string outputDir)
+    {
+        var chunkSize = (int)Math.Ceiling(files.Count() / 12d);
+        var buckets = files.Chunk(chunkSize).ToArray();
+
+        await Task.WhenAll(buckets.Select((bucket) => RunInkscapeShellAsync(bucket, outputDir)));
+    }
+
+    private static async Task RunInkscapeShellAsync(IReadOnlyList<string> bucket, string outputDir)
+    {
+        var psi = new ProcessStartInfo
+        {
+            FileName = Paths.InkscapePath,
+            ArgumentList = { "--shell" },
+            RedirectStandardInput = true,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            UseShellExecute = false,
+            CreateNoWindow = true,
+        };
+
+        using var proc =
+            Process.Start(psi)
+            ?? throw new InvalidOperationException($"Failed to start Inkscape shell");
+
+        var stdoutTask = Task.Run(async () =>
+        {
+            string? line;
+            while ((line = await proc.StandardOutput.ReadLineAsync()) != null) { }
+        });
+        var stderrTask = Task.Run(async () =>
+        {
+            string? line;
+            while ((line = await proc.StandardError.ReadLineAsync()) != null) { }
+        });
+
+        try
+        {
+            foreach (var file in bucket)
+            {
+                var outputPath = Path.Combine(outputDir, Path.GetFileName(file));
+
+                if (
+                    !File.Exists(outputPath)
+                    || File.GetLastWriteTime(file) > File.GetLastWriteTime(outputPath)
+                )
+                {
+                    await proc.StandardInput.WriteLineAsync(
+                        $"file-open:{file};select-all;object-stroke-to-path;path-union;export-plain-svg;export-filename:{outputPath};export-do;file-close"
+                    );
+                }
+            }
+        }
+        finally
+        {
+            proc.StandardInput.Close();
+        }
+
+        await proc.WaitForExitAsync();
+        await Task.WhenAll(stdoutTask, stderrTask);
+
+        if (proc.ExitCode != 0)
+            throw new InvalidOperationException($"Inkscape shell exited with code {proc.ExitCode}");
+    }
+
     internal static string GetCamelId(this string id)
     {
         var strings = new List<string>();

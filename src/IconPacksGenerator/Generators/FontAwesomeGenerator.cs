@@ -34,27 +34,7 @@ internal class FontAwesomeGenerator
 
         var files = Directory.EnumerateFiles(Path.Combine(rootPath, variant), "*.svg");
 
-        await Parallel.ForEachAsync(
-            files,
-            new ParallelOptions { MaxDegreeOfParallelism = 12 },
-            async (file, _) =>
-            {
-                var filename = Path.GetFileName(file);
-                var outputPath = Path.Combine(variantOutputPath, filename);
-
-                if (
-                    !Path.Exists(outputPath)
-                    || File.GetLastWriteTime(file) > File.GetLastWriteTime(outputPath)
-                )
-                {
-                    await Cli.Wrap(Paths.InkscapePath)
-                        .WithArguments(
-                            $"{file} --actions=\"select-all;object-stroke-to-path;path-union;export-plain-svg;export-filename:{outputPath};export-do\""
-                        )
-                        .ExecuteAsync(_);
-                }
-            }
-        );
+        await Util.StrokeToPathAsync(files, variantOutputPath);
 
         var iconKinds = new Dictionary<string, string>();
 

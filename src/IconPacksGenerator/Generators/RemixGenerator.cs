@@ -8,6 +8,11 @@ namespace IconPacksGenerator.Generators;
 internal static class RemixGenerator
 {
     private static readonly string rootPath = Path.Combine(Paths.RemixIconPath, "./icons/");
+    private static readonly string templatePath = Path.Combine(
+        Paths.InkscapeOutputPath,
+        "./template/",
+        "Remix"
+    );
 
     private static readonly string inkscapeOutputPath = Path.Combine(
         Paths.InkscapeOutputPath,
@@ -26,37 +31,45 @@ internal static class RemixGenerator
     internal static async Task RunAsync(string variant)
     {
         var variantOutputPath = Path.Combine(inkscapeOutputPath, variant);
+        var variantDir = Path.Combine(templatePath, variant);
+
+        if (!Directory.Exists(variantDir))
+            Directory.CreateDirectory(variantDir);
 
         if (!Directory.Exists(variantOutputPath))
             Directory.CreateDirectory(variantOutputPath);
 
-        var files = Directory.EnumerateFiles(
-            rootPath,
-            $"*-{variant}.svg",
-            SearchOption.AllDirectories
-        );
+        {
+            var files = Directory.EnumerateFiles(
+                rootPath,
+                $"*-{variant}.svg",
+                SearchOption.AllDirectories
+            );
 
-        await Parallel.ForEachAsync(
-            files,
-            new ParallelOptions { MaxDegreeOfParallelism = 12 },
-            async (file, _) =>
-            {
-                var filename = Path.GetFileName(file).Replace($"-{variant}", string.Empty);
-                var outputPath = Path.Combine(variantOutputPath, filename);
-
-                if (
-                    !File.Exists(outputPath)
-                    || File.GetLastWriteTime(file) > File.GetLastWriteTime(outputPath)
-                )
+            await Parallel.ForEachAsync(
+                files,
+                new ParallelOptions { MaxDegreeOfParallelism = 12 },
+                async (file, _) =>
                 {
-                    await Cli.Wrap(Paths.InkscapePath)
-                        .WithArguments(
-                            $"\"{file}\" --actions=\"select-all;object-stroke-to-path;path-union;export-plain-svg;export-filename:{outputPath};export-do\""
-                        )
-                        .ExecuteAsync(_);
+                    var filename = Path.GetFileName(file).Replace($"-{variant}", string.Empty);
+                    var templateFile = Path.Combine(templatePath, variant, $"{filename}");
+                    if (
+                        !File.Exists(templateFile)
+                        || File.GetLastWriteTime(file) > File.GetLastWriteTime(templateFile)
+                    )
+                    {
+                        File.Copy(file, templateFile, true);
+                        File.SetLastWriteTime(templateFile, DateTime.Now);
+                    }
                 }
-            }
-        );
+            );
+        }
+
+        {
+            var files = Directory.EnumerateFiles(variantDir, "*.svg", SearchOption.AllDirectories);
+
+            await Util.StrokeToPathAsync(files, variantOutputPath);
+        }
 
         var iconKinds = new Dictionary<string, string>();
 

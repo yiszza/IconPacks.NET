@@ -47,6 +47,7 @@
                         <ListBoxItem>Material.Outlined</ListBoxItem>
                         <ListBoxItem>Material.Round</ListBoxItem>
                         <ListBoxItem>Material.Sharp</ListBoxItem>
+                        <ListBoxItem>Material.Twotone</ListBoxItem>
                         <ListBoxItem>MaterialCommunity</ListBoxItem>
                         <ListBoxItem>Remix.Fill</ListBoxItem>
                         <ListBoxItem>Remix.Line</ListBoxItem>
@@ -87,6 +88,7 @@
                                 <PathIcon
                                     Width="48"
                                     Height="48"
+                                    Foreground="#000000"
                                     Data="{Binding Data}" />
                                 <TextBlock
                                     x:Name="Key"

@@ -8,6 +8,13 @@ internal class Program
 {
     private static async Task Main(string[] args)
     {
+        if (!File.Exists(Paths.InkscapePath))
+        {
+            Console.Error.WriteLine(
+                "ERROR: Need to install Inkscape and update Paths.InkscapePath!"
+            );
+            return;
+        }
         Console.WriteLine("Icons initializing...");
         await InitIcons();
 

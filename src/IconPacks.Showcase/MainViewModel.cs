@@ -65,6 +65,7 @@ public partial class MainViewModel : ObservableObject
             { "Material.Outlined", typeof(Material.Outlined) },
             { "Material.Round", typeof(Material.Round) },
             { "Material.Sharp", typeof(Material.Sharp) },
+            { "Material.Twotone", typeof(Material.Twotone) },
             { "MaterialCommunity", typeof(MaterialCommunity.Regular) },
             { "Remix.Fill", typeof(Remix.Fill) },
             { "Remix.Line", typeof(Remix.Line) },
